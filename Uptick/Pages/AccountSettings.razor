@@ -1,0 +1,65 @@
+﻿@page "/account"
+@inject AppState AppState
+@inject NavigationManager NavManager
+
+<h3>Account</h3>
+@if (AppState.loggedInUser != null)
+{
+
+	<div class="row pad-bottom">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<p>Welcome @AppState.loggedInUser.username</p>
+			<button type="button" class="btn btn-primary" @onclick='() => AppState.logoutUser()'>
+				Log out
+			</button>
+		</div>
+		<div class="col-1"></div>
+	</div>
+	<div class="row pad-bottom">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<h5>Linked Accounts</h5>
+		</div>
+		<div class="col-1"></div>
+	</div>
+	<div class="row pad-bottom">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<button type="button" class='btn btn-primary' style="background-color:mediumpurple !important; padding-bottom:5px !important;">Dapper</button>
+		</div>
+		<div class="col-1"></div>
+	</div>
+	<div class="row pad-bottom">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<button type="button" class='btn btn-primary' style="background-color:orange !important">MetaMask</button>
+		</div>
+		<div class="col-1"></div>
+	</div>
+}
+
+@code {
+	protected override void OnInitialized()
+	{
+		AppState.OnUserChange += StateHasChanged;
+		if (AppState.loggedInUser == null)
+		{
+			NavManager.NavigateTo($"/account/login");
+		}
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (AppState.loggedInUser == null)
+		{
+			NavManager.NavigateTo($"/account/login");
+		}
+	}
+
+	public void Dispose()
+	{
+		AppState.OnUserChange -= StateHasChanged;
+	}
+
+}

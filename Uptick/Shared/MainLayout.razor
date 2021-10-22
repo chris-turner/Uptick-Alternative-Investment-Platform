@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+	<div class="sidebar">
+		<NavMenu />
+	</div>
+
+	<div class="main">
+		<div class="top-row px-4">
+			@inject AppState AppState
+			@if (AppState.loggedInUser == null)
+			{
+				<a href="/account/login" class="ml-md-auto">Login</a>
+			}
+			else
+			{
+				<a href="/account" class="ml-md-auto">@AppState.loggedInUser.username</a>
+			}
+		</div>
+
+		<div class="content px-4">
+			@Body
+		</div>
+	</div>
+</div>
+
+@code {
+	@using Uptick.Models;
+	public string userName { get; set; }
+
+	protected override void OnInitialized()
+	{
+		AppState.OnUserChange += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		AppState.OnUserChange -= StateHasChanged;
+	}
+}

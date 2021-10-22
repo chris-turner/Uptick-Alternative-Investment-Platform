@@ -1,0 +1,224 @@
+﻿@page "/BreakStart/{BreakID}"
+@inject HttpClient Http
+@inject AppState AppState
+@inject NavigationManager NavManager
+
+@if (AppState.loggedInUser == null)
+{
+
+}
+else
+{
+	@if (breakResults == null)
+	{
+		<p><em>Loading...</em></p>
+	}
+	else
+	{
+		@if (countdownFinished)
+		{
+			<div class="row">
+				<div class="col-xl-2"></div>
+				<div class="col-xl-8">
+					<Carousel @bind-SelectedSlide="@selectedSlide" Style="height:250px;">
+						@foreach (var result in breakResults)
+						{
+							<CarouselSlide Name="@result.slotNum.ToString()" Style="height:400px;  ">
+								<Image Source="@result.card.CardImageURL" Text="Card" Display="Display.Block" Class="mx-auto" Style="width:40% object-fit: cover;" />
+								@if (result.user.username == AppState.loggedInUser.username)
+								{
+									<div class="row">
+										<div class="col-xl-2"></div>
+										<div class="col-xl-8" style="text-align:center">
+											<b><h5>@result.user.username</h5></b>
+										</div>
+										<div class="col-xl-2"></div>
+									</div>
+								}
+								else
+								{
+									<div class="row">
+										<div class="col-xl-2"></div>
+										<div class="col-xl-8" style="text-align:center">
+											@result.user.username
+										</div>
+										<div class="col-xl-2"></div>
+									</div>
+								}
+							</CarouselSlide>
+
+						}
+					</Carousel>
+				</div>
+				<div class="col-xl-2"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-xl-2"></div>
+				<div class="col-xl-8 centerContent">
+					<div class="btn-group mr-2">
+						<Button Class="btn-primary mx-auto" @onclick="goToPortfolioPage">View My Portfolio</Button>
+					</div>
+					<div class="btn-group">
+						<Button Class="btn-primary mx-auto" @onclick="viewBreakResults">View Full Results</Button>
+					</div>
+				</div>
+				<div class="col-xl-2"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="row">
+				<div class="col-xl-2"></div>
+				<div class="col-xl-8 centerContent">
+					<h5>Break starting in</h5>
+					<div class="page">
+						<div class="number">
+							<span class="num5">5</span>
+							<span class="num4">4</span>
+							<span class="num3">3</span>
+							<span class="num2">2</span>
+							<span class="num1">1</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-2"></div>
+			</div>
+
+		}
+	}
+}
+
+
+@code {
+	[Parameter]
+	public string BreakID { get; set; }
+	private string selectedSlide = "1";
+	bool viewFullResults = false;
+	List<Asset> cardsInBreak = new List<Asset>();
+	List<User> usersInBreak = new List<User>();
+	List<BreakSlot> breakResults;
+	bool countdownFinished = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.loggedInUser == null)
+		{
+			NavManager.NavigateTo($"/account");
+		}
+		else
+		{
+			var allCards = await Http.GetFromJsonAsync<List<Asset>>("sample-data/cards.json");
+			usersInBreak = await Http.GetFromJsonAsync<List<User>>("sample-data/users.json");
+			cardsInBreak = allCards.Where(c => c.breakID == BreakID).ToList();
+
+			if (AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault().completed)
+			{
+				breakResults = AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault().breakResults;
+			}
+			else
+			{
+				breakResults = runBreak(cardsInBreak, usersInBreak);
+				startTimer();
+			}
+		}
+
+	}
+	private static System.Timers.Timer aTimer;
+	private int counter = 10;
+
+	public void startTimer()
+	{
+		aTimer = new System.Timers.Timer(1000);
+		aTimer.Elapsed += countdownTimer;
+		aTimer.Enabled = true;
+	}
+
+	public void countdownTimer(Object source, System.Timers.ElapsedEventArgs e)
+	{
+		if (counter > 0)
+		{
+			counter -= 1;
+		}
+		else
+		{
+			aTimer.Enabled = false;
+			countdownFinished = true;
+		}
+		InvokeAsync(StateHasChanged);
+	}
+
+	private void goToPortfolioPage()
+	{
+		NavManager.NavigateTo($"/Portfolio");
+	}
+
+	private void viewBreakResults()
+	{
+		NavManager.NavigateTo($"/BreakResults/{BreakID}");
+	}
+
+
+	// move to serverless function
+	private List<BreakSlot> runBreak(List<Asset> cardList, List<User> userList)
+	{
+		Dictionary<string, Guid> results = new Dictionary<string, Guid>();
+
+		if (cardList.Count != userList.Count)
+		{
+			throw new Exception($"Invalid Break. Cards and User count not matching. Cards:{cardList.Count} Users:{userList.Count}");
+		}
+
+		int cardsUsersCount = cardList.Count;
+
+		Queue<Asset> cardQueue = new Queue<Asset>(cardList);
+		List<User> usersToAssign = new List<User>(userList);
+
+		while (cardQueue.Count > 0)
+		{
+			Random rnd = new Random();
+			Asset currentCard = cardQueue.Dequeue();
+			Guid currentCardID = Guid.Parse(currentCard.cardId);
+			int userCount = usersToAssign.Count;
+			int rndUserIdx = rnd.Next(userCount);
+			Guid assignedUserID = usersToAssign.ElementAt(rndUserIdx).userID;
+			usersToAssign.RemoveAt(rndUserIdx);
+			results.Add(currentCardID.ToString(), assignedUserID);
+		}
+
+		List<BreakSlot> breakSlots = new List<BreakSlot>();
+		int counter = 1;
+		foreach (var kvp in results)
+		{
+			BreakSlot slot = new BreakSlot();
+			var currentCardID = kvp.Key;
+			var currentUserID = kvp.Value;
+			slot.slotNum = counter;
+			slot.card = cardsInBreak.Where(c => c.cardId == currentCardID).FirstOrDefault();
+			slot.user = usersInBreak.Where(u => u.userID == currentUserID).FirstOrDefault();
+
+			if (slot.user.username == "USERID" && AppState.loggedInUser != null)
+			{
+				slot.user.username = AppState.loggedInUser.username;
+				if (AppState.portfolio == null)
+				{
+					AppState.portfolio = new List<Asset>();
+				}
+				AppState.portfolio.Add(slot.card);
+			}
+			breakSlots.Add(slot);
+			counter++;
+		}
+
+		Break currentBreak = AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault();
+		currentBreak.completed = true;
+		currentBreak.breakResults = breakSlots;
+		return breakSlots;
+	}
+}

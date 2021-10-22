@@ -1,0 +1,67 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="Home"><img src="https://i.imgur.com/WMY4dDd.png" alt="Uptick Logo" /></a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Breaks">
+                <span class="oi oi-fire" aria-hidden="true"></span> Breaks
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Sales">
+                <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search Sales
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Articles">
+                <span class="oi oi-book" aria-hidden="true"></span> Articles
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Charts">
+                <span class="oi oi-graph" aria-hidden="true"></span> Charts
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Portfolio">
+                <span class="oi oi-pie-chart" aria-hidden="true"></span> Portfolio
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Send">
+                <span class="oi oi-location" aria-hidden="true"></span>Send
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Account">
+                <span class="oi oi-briefcase" aria-hidden="true"></span>Account
+            </NavLink>
+        </li>
+        <!--<li class="nav-item px-3">
+            <NavLink class="nav-link" href="Listings">
+                <span class="oi oi-list" aria-hidden="true"></span> My Listings
+            </NavLink>
+        </li>-->
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

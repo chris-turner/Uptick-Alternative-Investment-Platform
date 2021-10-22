@@ -1,0 +1,63 @@
+@page "/Break/{BreakID}"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+
+@if (cardsInBreak == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<div class="row pad-bottom">
+		<div class="col-12">
+			<p>You will receive one of the cards below.</p>
+		</div>
+	</div>
+	<div class="row">
+		@foreach (Asset card in cardsInBreak)
+		{
+			<div class="col-md-4">
+				<p><img src="@card.CardImageURL" /></p>
+				<p>
+
+					@if (!String.IsNullOrEmpty(@card.Grader))
+					{
+						cardName = $"{card.Player} {card.CardName} {card.Grader} {card.Grade}";
+					}
+					else
+					{
+						cardName = $"{card.Player} {card.CardName}";
+					}
+					@cardName
+				</p>
+			</div>
+
+		}
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<button type="button" class="btn btn-primary" @onclick="StartBreak">Join</button>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public string BreakID { get; set; }
+	private List<Asset> cardsInBreak;
+
+	string cardName;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var allCards = await Http.GetFromJsonAsync<List<Asset>>("sample-data/cards.json");
+		cardsInBreak = allCards.Where(c => c.breakID == BreakID).ToList();
+	}
+
+	private void StartBreak()
+	{
+		NavManager.NavigateTo($"/BreakStart/{BreakID}");
+	}
+
+}

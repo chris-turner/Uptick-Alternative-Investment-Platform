@@ -1,0 +1,49 @@
+﻿@page "/"
+@inject AppState AppState;
+@inject NavigationManager NavManager;
+@using Uptick.Models;
+
+<div class="jumbotron">
+	<h1 class="display-3">Uptick</h1>
+	<p class="lead">Join breaks. Collect assets. Build your portfolio.</p>
+
+	@if (AppState.loggedInUser != null)
+	{
+		<p>Welcome, @AppState.loggedInUser.username</p>
+	}
+	else
+	{
+		<div class="btn-group mr-2">
+			<Button Class="btn-primary mx-auto" @onclick="sendToLogin">Sign Up</Button>
+		</div>
+		<div class="btn-group">
+			<Button Class="btn-primary mx-auto" @onclick="sendToLogin">Login</Button>
+		</div>
+	}
+</div>
+
+<div class="row marketing">
+	<div class="col-lg-6">
+		<h4><span class="oi oi-fire" aria-hidden="true"></span><span class="marketing-subtitle">Break</span></h4>
+		<p>Join a break. Get your spot. Receive an asset. </p>
+
+		<h4><span class="oi oi-pie-chart" aria-hidden="true"></span><span class="marketing-subtitle">Collect</span></h4>
+		<p>Collect assets to build your portfolio.</p>
+	</div>
+
+	<div class="col-lg-6">
+		<h4> <span class="oi oi-graph" aria-hidden="true"></span><span class="marketing-subtitle">Track</span></h4>
+		<p>Track performance of trading cards, cryptocurrencies, NFTs, and more.</p>
+
+		<h4><span class="oi oi-location" aria-hidden="true"></span><span class="marketing-subtitle">Send</span></h4>
+		<p>Withdraw virtual assets to a wallet or ship physical assets home.</p>
+
+	</div>
+</div>
+
+@code {
+	public void sendToLogin()
+	{
+		NavManager.NavigateTo($"/account/login");
+	}
+}

@@ -1,0 +1,58 @@
+﻿@page "/send"
+@inject AppState AppState
+@inject NavigationManager NavManager
+
+
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<h3>Send or Withdraw Assets</h3>
+	</div>
+	<div class="col-1"></div>
+</div>
+
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		@if (AppState.loggedInUser != null)
+		{
+			if (AppState.withdraw == null)
+			{
+				<p>No assets marked to withdraw.</p>
+			}
+			else
+			{
+				foreach (var asset in AppState.withdraw)
+				{
+					var assetID = asset.cardId;
+					<div class="col-md-4 col-sm-6 col-xs-6">
+						<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+						@asset.Player @asset.CardName @asset.Grader @asset.Grade
+						<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToPortfolio(assetID))">Send to Portfolio</button></p>
+						<p><button type="button" class="btn btn-primary">Withdraw Asset</button></p>
+					</div>
+				}
+			}
+		}
+	</div>
+	<div class="col-1"></div>
+</div>
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.loggedInUser == null)
+		{
+			NavManager.NavigateTo($"/account");
+		}
+	}
+	public void sendAssetToPortfolio(string assetID)
+	{
+		if (AppState.portfolio == null)
+		{
+			AppState.portfolio = new List<Asset>();
+		}
+		var asset = AppState.withdraw.Where(a => a.cardId == assetID).FirstOrDefault();
+		AppState.withdraw.Remove(asset);
+		AppState.portfolio.Add(asset);
+	}
+}

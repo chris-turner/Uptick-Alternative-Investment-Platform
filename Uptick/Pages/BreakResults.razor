@@ -1,0 +1,51 @@
+﻿@page "/BreakResults/{BreakID}"
+@inject HttpClient Http
+@inject AppState AppState
+@inject NavigationManager NavManager
+
+
+@if (breakResults == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<div class="row">
+		@foreach (var result in breakResults)
+		{
+			<div class="col-md-4">
+				<p><img src="@result.card.CardImageURL" /></p>
+				<p>
+
+					@if (!String.IsNullOrEmpty(@result.card.Grader))
+					{
+						cardName = $"{@result.card.Player} {@result.card.CardName} {@result.card.Grader} {@result.card.Grade}";
+					}
+					else
+					{
+						cardName = $"{@result.card.Player} {@result.card.CardName}";
+					}
+					@cardName
+				</p>
+				<p><b>@result.user.username</b></p>
+			</div>
+
+		}
+	</div>
+}
+
+@code {
+	[Parameter]
+	public string BreakID { get; set; }
+	private List<BreakSlot> breakResults;
+
+	string cardName;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.loggedInUser != null)
+		{
+			breakResults = AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault().breakResults;
+		}
+	}
+}

@@ -1,0 +1,81 @@
+﻿@page "/charts"
+@inject HttpClient Http
+
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 my-5">
+			<h3>Highest Selling Sports Cards of All Time</h3>
+			<LineChart @ref="lineChart" OptionsJsonString="" TItem="int" >
+				</LineChart>
+		</div>
+	</div>
+</div>
+
+
+@code {
+	@using System.Globalization
+
+	List<Sale> highestSales;
+	List<string> chartLabels;
+	List<int> highestSalePrices;
+
+	LineChart<int> lineChart;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await HandleRedraw();
+		}
+	}
+
+	async Task HandleRedraw()
+	{
+		await getHighestSalesData();
+		await lineChart.Clear();
+		string[] Labels = { };
+		Labels = chartLabels.ToArray();
+		await lineChart.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset());
+	}
+
+	async Task getHighestSalesData()
+	{
+		List<Tuple<DateTime, int>> priceAndDates = new List<Tuple<DateTime, int>>();
+		chartLabels = new List<string>();
+		highestSalePrices = new List<int>();
+		highestSales = await Http.GetFromJsonAsync<List<Sale>>("sample-data/highestsales.json");
+		foreach (var sale in highestSales)
+		{
+			priceAndDates.Add(Tuple.Create(DateTime.Parse(sale.DateOfSale), sale.AdjustedPrice));
+			sale.SaleDate = DateTime.Parse(sale.DateOfSale);
+		}
+		priceAndDates = priceAndDates.OrderBy(p => p.Item1).ToList();
+		foreach (var priceAndDate in priceAndDates)
+		{
+			chartLabels.Add(priceAndDate.Item1.ToString("MM/dd/yyyy"));
+			highestSalePrices.Add(priceAndDate.Item2);
+		}
+	}
+	LineChartDataset<int> GetLineChartDataset()
+	{
+		return new LineChartDataset<int>
+			{
+				Label = "Sale Price",
+				Data = highestSalePrices,
+				BackgroundColor = backgroundColors,
+				BorderColor = borderColors,
+				Fill = true,
+				PointRadius = 2,
+				BorderDash = new List<int> { },
+			};
+	}
+
+
+	List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+	List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+
+
+
+    }

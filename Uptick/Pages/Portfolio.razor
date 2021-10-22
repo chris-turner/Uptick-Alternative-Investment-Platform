@@ -1,0 +1,124 @@
+﻿@page "/Portfolio"
+@inject AppState AppState
+@inject NavigationManager NavManager
+
+
+@if (AppState.loggedInUser == null)
+{
+	
+}
+else
+{
+	<h3>@AppState.loggedInUser.username's Portfolio</h3>
+	
+	if (AppState.portfolio == null || AppState.portfolio.Count == 0)
+	{
+		<p>Your portfolio is empty. Join breaks to acquire assets.</p>
+	}
+	else
+	{
+		<div class="row">
+		<div class="col-12">
+			<PieChart @ref="pieChart" TItem="int">
+			</PieChart>
+		</div>
+	</div>
+		foreach (var asset in AppState.portfolio)
+		{
+			var assetID = asset.cardId;
+			<div class="col-md-4 col-sm-6 col-xs-6">
+				<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+				<p>
+					@asset.Player @asset.CardName @asset.Grader @asset.Grade
+				</p>
+				<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToWithdrawl(assetID))">Withdraw Asset</button></p>
+			</div>
+		}
+
+
+	}
+}
+
+@code {
+	@using System.Globalization
+
+	List<string> chartLabels;
+	List<int> assetClasses;
+
+
+	PieChart<int> pieChart;
+
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (AppState.loggedInUser == null)
+		{
+			NavManager.NavigateTo($"/account");
+		}
+		if (firstRender)
+		{
+			await HandleRedraw();
+		}
+	}
+
+	async Task HandleRedraw()
+	{
+		chartLabels = new List<string>();
+		assetClasses = new List<int>();
+		if (AppState.portfolio != null && AppState.portfolio.Count > 0)
+		{
+			await pieChart.Clear();
+			var data = GetPieChartDataset();
+			string[] labels = chartLabels.ToArray();
+			await pieChart.AddLabelsDatasetsAndUpdate(labels, data);
+		}
+	}
+
+	PieChartDataset<int> GetPieChartDataset()
+	{
+		Dictionary<string, int> assetClassCount = new Dictionary<string, int>();
+		foreach (var asset in AppState.portfolio)
+		{
+			if (assetClassCount.ContainsKey(asset.AssetClass))
+			{
+				assetClassCount[asset.AssetClass] = assetClassCount[asset.AssetClass] + 1;
+			}
+			else
+			{
+				assetClassCount.Add(asset.AssetClass, 1);
+			}
+		}
+
+		foreach (var kvp in assetClassCount)
+		{
+			chartLabels.Add(kvp.Key);
+			assetClasses.Add(kvp.Value / AppState.portfolio.Count * 100);
+		}
+		return new PieChartDataset<int>
+			{
+				Label = "Asset Class Exposure as a Percentage",
+				Data = assetClasses,
+				//BackgroundColor = backgroundColors,
+				//BorderColor = borderColors,
+				//Fill = true,
+				//PointRadius = 2,
+				//BorderDash = new List<int> { },
+			};
+	}
+
+
+	List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+	List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+
+
+	public void sendAssetToWithdrawl(string assetID)
+	{
+		if (AppState.withdraw == null)
+		{
+			AppState.withdraw = new List<Asset>();
+		}
+		var asset = AppState.portfolio.Where(a => a.cardId == assetID).FirstOrDefault();
+		AppState.portfolio.Remove(asset);
+		AppState.withdraw.Add(asset);
+	}
+	}

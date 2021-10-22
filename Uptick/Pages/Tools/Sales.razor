@@ -1,0 +1,40 @@
+﻿@page "/Sales"
+@using System.Web
+@inject IJSRuntime JSRuntime;
+
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<h2>eBay Sold Search</h2>
+		Bookmark this page for a quick way to search eBay sold listings.
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<input type="text" @bind="@SearchQuery" @oninput="@((e) => { SearchQuery=(string)e.Value;})" />
+
+	</div>
+	<div class="col-1"></div>
+</div>
+
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<button class="btn btn-primary" @onclick=searchEbay>Search</button>
+	</div>
+	<div class="col-1"></div>
+</div>
+@code {
+	private string SearchQuery { get; set; } = "";
+	public async Task searchEbay()
+	{
+		if (SearchQuery.Trim() != "")
+		{
+			string encodedQuery = HttpUtility.UrlEncode(SearchQuery);
+			string url = $"https://www.ebay.com/sch/i.html?_from=R40&_nkw={encodedQuery}&_sacat=0&rt=nc&LH_Sold=1&LH_Complete=1";
+			await JSRuntime.InvokeAsync<object>("open", url, "_blank");
+		}
+	}
+}

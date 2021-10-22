@@ -1,0 +1,98 @@
+﻿@page "/Breaks"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@inject AppState AppState
+
+<h3>Breaks</h3>
+<div class="row">
+	@if (breaks == null)
+	{
+		<p><em>Loading...</em></p>
+	}
+	else
+	{
+
+		@foreach (var groupBreak in breaks)
+		{
+			var breakID = groupBreak.breakId;
+			<div class="col-md-4 col-sm-6 col-xs-6">
+				<b>
+					@groupBreak.breakName
+				</b>
+				<p> <img class="grid-img" src="@groupBreak.breakImageURL" /></p>
+
+				@if(groupBreak.completed)
+				{
+					<p><b>Completed</b></p>
+				}
+				else
+				{
+					<p> @groupBreak.currentUsers / @groupBreak.maxUsers spots filled</p>
+				}
+				<p>$@groupBreak.breakPrice</p>
+				@if (@groupBreak.currentUsers == @groupBreak.maxUsers)
+				{
+					<p><button type="button" class="btn btn-primary" @onclick="(() => ViewBreakResults(breakID))">View Results</button></p>
+				}
+				else
+				{
+					<p><button type="button" class="btn btn-primary" @onclick="(() => JoinBreak(breakID))">Join Break</button></p>
+				}
+				
+			</div>
+		}
+
+	}
+</div>
+@code {
+	@using Uptick.Models;
+	private List<Break> breaks;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.breaks != null)
+		{
+			breaks = AppState.breaks;
+		}
+		else
+		{
+			breaks = await Http.GetFromJsonAsync<List<Break>>("sample-data/breaks.json");
+			AppState.breaks = breaks;
+		}
+	}
+
+	private void JoinBreak(string breakID)
+	{
+		if (AppState.loggedInUser != null)
+		{
+			Break currentBreak = AppState.breaks.Where(b => b.breakId == breakID).FirstOrDefault();
+			if(currentBreak.currentUsers < currentBreak.maxUsers)
+			{
+				currentBreak.currentUsers++;
+			}
+			NavManager.NavigateTo($"/Break/{breakID}");
+		}
+		else
+		{
+			NavManager.NavigateTo($"/Account/Login");
+		}
+	}
+
+	private void ViewBreakResults(string breakID)
+	{
+		if (AppState.loggedInUser != null)
+		{
+			Break currentBreak = AppState.breaks.Where(b => b.breakId == breakID).FirstOrDefault();
+			if(currentBreak.currentUsers < currentBreak.maxUsers)
+			{
+				currentBreak.currentUsers++;
+			}
+			NavManager.NavigateTo($"/BreakResults/{breakID}");
+		}
+		else
+		{
+			AppState.redirectUrl = "/BreakResults";
+			NavManager.NavigateTo($"/Account/Login");
+		}
+	}
+}

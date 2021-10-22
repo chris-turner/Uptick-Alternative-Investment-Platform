@@ -1,0 +1,56 @@
+[
+  {
+    "BreakId": "4afa6a69-9f0e-4398-af3b-af4bbbdaa4pp",
+    "BreakName": "NFL PSA 10 Rookies",
+    "BreakImageURL": "https://i.imgur.com/7xuYD81.jpg",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  },
+  {
+    "BreakId": "d156cf80-e051-4960-8540-6d614337e5e6",
+    "BreakName": "Connor McDavid Cards",
+    "BreakImageURL": "https://sportsjone.com/wp-content/uploads/2021/10/download.png",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  },
+  {
+    "BreakId": "0cfa6a69-9f0e-4398-af3b-af4bbbdaa5ca",
+    "BreakName": "2019 Panini National Treasures Football",
+    "BreakImageURL": "https://www.blowoutcards.com/media/catalog/product/cache/1/image/750x750/5cc9b2084ebab6842194ad7353fd680e/1/9/19pnnattreasfb2_1.jpg",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  },
+  {
+    "BreakId": "1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+    "BreakName": "NBA TopShot",
+    "BreakImageURL": "https://techcrunch.com/wp-content/uploads/2020/05/NBA-Top-Shot.jpg",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  },
+  {
+    "BreakId": "7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+    "BreakName": "1999 Pokemon",
+    "BreakImageURL": "https://i.imgur.com/a0nVoku.jpeg",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  },
+  {
+    "BreakId": "3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+    "BreakName": "CryptoPunks",
+    "BreakImageURL": "https://news.artnet.com/app/news-upload/2021/04/EyeVZunXAAQAdX7.jpeg",
+    "StartTime": "10/6/2021 11:00:00 PM",
+    "BreakPrice": "1000",
+    "MaxUsers": 5,
+    "CurrentUsers": 4
+  }
+]
