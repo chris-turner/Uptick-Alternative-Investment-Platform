@@ -45,10 +45,9 @@
 				}
 				@if (!AppState.onWaitlist)
 				{
-					<label for="inputEmail" class="sr-only">Join the waitlist. Enter your email address to get updates on Uptick.</label>
 					<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
 				}
-
+				
 				@if (!isValidEmail)
 				{
 					<div class="invalidInfo">Please provide a valid email address.</div>

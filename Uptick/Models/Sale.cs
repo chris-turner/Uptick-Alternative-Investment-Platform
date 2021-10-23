@@ -2,7 +2,7 @@
 
 namespace Uptick.Models
 {
-    public class Sale
+    public class HighSale
     {
         public int AdjustedPrice { get; set; }
         public int OriginalPrice { get; set; }
@@ -16,4 +16,12 @@ namespace Uptick.Models
         public DateTime SaleDate { get; set; }
         public string AuctionHouse { get; set; }
     }
+
+    public class Sale
+    {
+        public string CardName { get; set; }
+        public int Price { get; set; }
+        public string DateSold { get; set; }
+    }
+
 }

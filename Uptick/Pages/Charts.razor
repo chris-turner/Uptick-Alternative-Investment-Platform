@@ -5,10 +5,26 @@
 
 <div class="container">
 	<div class="row">
+		<h1>Flagship Card Sales</h1>
 		<div class="col-sm-12 my-5">
-			<h3>Highest Selling Sports Cards of All Time</h3>
-			<LineChart @ref="lineChart" OptionsJsonString="" TItem="int" >
-				</LineChart>
+			<h3>1986 Fleer Michael Jordan PSA 8</h3>
+			<LineChart @ref="lineChartJordan" OptionsJsonString="" TItem="int">
+			</LineChart>
+		</div>
+		<div class="col-sm-12 my-5">
+			<h3>2015 Upper Deck Young Guns Connor McDavid PSA 10</h3>
+			<LineChart @ref="lineChartMcDavid" OptionsJsonString="" TItem="int">
+			</LineChart>
+		</div>
+		<div class="col-sm-12 my-5">
+			<h3>2017 Panini Prizm Silver Prizms Patrick Mahomes PSA 10</h3>
+			<LineChart @ref="lineChartMahomes" OptionsJsonString="" TItem="int">
+			</LineChart>
+		</div>
+		<div class="col-sm-12 my-5">
+			<h3>2011 Topps Update Mike Trout PSA 10</h3>
+			<LineChart @ref="lineChartTrout" OptionsJsonString="" TItem="int">
+			</LineChart>
 		</div>
 	</div>
 </div>
@@ -16,12 +32,17 @@
 
 @code {
 	@using System.Globalization
+	@using Blazorise.Charts
 
 	List<Sale> highestSales;
 	List<string> chartLabels;
 	List<int> highestSalePrices;
 
-	LineChart<int> lineChart;
+
+	LineChart<int> lineChartJordan;
+	LineChart<int> lineChartMcDavid;
+	LineChart<int> lineChartMahomes;
+	LineChart<int> lineChartTrout;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -33,23 +54,45 @@
 
 	async Task HandleRedraw()
 	{
-		await getHighestSalesData();
-		await lineChart.Clear();
 		string[] Labels = { };
+
+		await getHighestSalesData("Jordan");
+		await lineChartJordan.Clear();
 		Labels = chartLabels.ToArray();
-		await lineChart.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset());
+		await lineChartJordan.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset("#3380ff","#3380ff"));
+
+		await getHighestSalesData("McDavid");
+		await lineChartMcDavid.Clear();
+		Labels = chartLabels.ToArray();
+		await lineChartMcDavid.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset("#ff3342","#ff3342"));
+
+		await getHighestSalesData("Mahomes");
+		await lineChartMahomes.Clear();
+		Labels = chartLabels.ToArray();
+		await lineChartMahomes.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset("#21a71b","#21a71b"));
+
+		await getHighestSalesData("Trout");
+		await lineChartTrout.Clear();
+		Labels = chartLabels.ToArray();
+		await lineChartTrout.AddLabelsDatasetsAndUpdate(Labels, GetLineChartDataset("#e932bd","#e932bd"));
 	}
 
-	async Task getHighestSalesData()
+	async Task getHighestSalesData(string cardName)
 	{
 		List<Tuple<DateTime, int>> priceAndDates = new List<Tuple<DateTime, int>>();
 		chartLabels = new List<string>();
 		highestSalePrices = new List<int>();
-		highestSales = await Http.GetFromJsonAsync<List<Sale>>("sample-data/highestsales.json");
+		
+		if (highestSales == null)
+		{
+			highestSales = await Http.GetFromJsonAsync<List<Sale>>("sample-data/cardsales.json");
+		}
 		foreach (var sale in highestSales)
 		{
-			priceAndDates.Add(Tuple.Create(DateTime.Parse(sale.DateOfSale), sale.AdjustedPrice));
-			sale.SaleDate = DateTime.Parse(sale.DateOfSale);
+			if (sale.CardName.Contains(cardName))
+			{
+				priceAndDates.Add(Tuple.Create(DateTime.Parse(sale.DateSold), sale.Price));
+			}
 		}
 		priceAndDates = priceAndDates.OrderBy(p => p.Item1).ToList();
 		foreach (var priceAndDate in priceAndDates)
@@ -58,17 +101,18 @@
 			highestSalePrices.Add(priceAndDate.Item2);
 		}
 	}
-	LineChartDataset<int> GetLineChartDataset()
+	LineChartDataset<int> GetLineChartDataset(string backgroundColor, string borderColor)
 	{
 		return new LineChartDataset<int>
 			{
 				Label = "Sale Price",
 				Data = highestSalePrices,
-				BackgroundColor = backgroundColors,
-				BorderColor = borderColors,
-				Fill = true,
+				BackgroundColor = new List<string>(){backgroundColor},
+				BorderColor = new List<string>(){borderColor},
+				Fill = false,
 				PointRadius = 2,
 				BorderDash = new List<int> { },
+				PointBackgroundColor = "#0000"
 			};
 	}
 
