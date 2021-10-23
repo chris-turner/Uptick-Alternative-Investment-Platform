@@ -10,7 +10,8 @@
         "NumberedTo": 0,
         "CardURL": "https://www.comc.com/Cards/Hockey/2015-16/Upper_Deck_Trilogy_-_Signature_Pucks_-_Primary_Logos/SP-CM/Connor_McDavid/11123193",
         "CardImageURL": "https://img.comc.com/i/Hockey/2015-16/Upper-Deck-Trilogy---Signature-Pucks---Primary-Logos/SP-CM/Connor-McDavid.jpg?id=310a83f9-22c0-4e49-b641-5560ffd875b1\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"26ce982b-fc41-46a3-ae20-0bd50c86fdcd",
@@ -23,7 +24,8 @@
         "NumberedTo": 99,
         "CardURL": "https://www.comc.com/Cards/Hockey/2015-16/Upper_Deck_Black_Diamond_-_Silver_on_Black_Rookie_Signatures/SBRS-CM/Connor_McDavid/10980360/Graded/BGS/9",
         "CardImageURL": "https://img.comc.com/i/Hockey/2015-16/Upper-Deck-Black-Diamond---Silver-on-Black-Rookie-Signatures/SBRS-CM/Connor-McDavid.jpg?id=20f2f7f6-fb32-4c38-a24c-678b683fb19b\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
         
     },
     {
@@ -37,7 +39,8 @@
         "NumberedTo": 0,
         "CardURL": "https://www.comc.com/Cards/Hockey/2015-16/Upper_Deck_Full_Force_-_Goooal_-_Autographs_Autographed/G-CM/Foil_Rookies_-_Connor_McDavid/10941140/Graded/BGS/9",
         "CardImageURL": "https://img.comc.com/i/Hockey/2015-16/Upper-Deck-Full-Force---Goooal---Autographs-Autographed/G-CM/Foil-Rookies---Connor-McDavid.jpg?id=d46c5822-4115-4465-9ab8-15a083fe816a\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"259bf9bc-aedc-4624-8a66-fbeca1518441",
@@ -50,7 +53,8 @@
         "NumberedTo": 99,
         "CardURL": "https://www.comc.com/Cards/Hockey/2015-16/Upper_Deck_Ultimate_Collection_-_2005-06_Ultimate_Rookies_-_Spectrum_Silver_Auto_Jersey_Autographed_Memorabilia/05-CM/Connor_McDavid/11664704/Graded/BGS/9_5",
         "CardImageURL": "https://img.comc.com/i/Hockey/2015-16/Upper-Deck-Ultimate-Collection---2005-06-Ultimate-Rookies---Spectrum-Silver-Auto-Jersey-Autographed-Memorabilia/05-CM/Connor-McDavid.jpg?id=6857f41d-392b-477f-89a0-b0e304b4e3f1\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a331",
@@ -63,7 +67,8 @@
         "NumberedTo": 100,
         "CardURL": "https://www.comc.com/Cards/Hockey/2015-16/SP_Authentic_-_Base_-_Limited_Autographed_Patches_Autographed_Memorabilia/226/Future_Watch_-_Connor_McDavid/11511059/Graded/BGS/8_5",
         "CardImageURL": "https://img.comc.com/i/Hockey/2015-16/SP-Authentic---Base---Limited-Autographed-Patches-Autographed-Memorabilia/226/Future-Watch---Connor-McDavid.jpg?id=3e5c836d-7ecd-40af-9627-57a3443fdc0f\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a335",
@@ -76,7 +81,8 @@
         "NumberedTo": 20,
         "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Midnight/178/Rookie_Patch_Autographs_-_Ryan_Finley/15530008/Ungraded/Other/Noted",
         "CardImageURL": "https://img.comc.com/i/Football/2019/Panini-National-Treasures---Base---Midnight/178/Rookie-Patch-Autographs---Ryan-Finley.jpg?id=d107b264-bac9-4a6f-ba41-28e0caf9c013\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a334",
@@ -89,7 +95,8 @@
         "NumberedTo": 25,
         "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Holo_Silver/130/Rookie_Signatures_-_Travis_Homer/15528479/Graded/PSA/10",
         "CardImageURL": "https://img.comc.com/i/Football/2019/Panini-National-Treasures---Base---Holo-Silver/130/Rookie-Signatures---Travis-Homer.jpg?id=93c2110b-d538-4a78-a4f3-080985ed9b89\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a336",
@@ -102,7 +109,8 @@
         "NumberedTo": 25,
         "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Jersey_Number_Red/130/Rookie_Signatures_-_Travis_Homer/15528529/Graded/PSA/9",
         "CardImageURL": "https://img.comc.com/i/Football/2019/Panini-National-Treasures---Base---Jersey-Number-Red/130/Rookie-Signatures---Travis-Homer.jpg?id=5ded8ee8-6253-41bc-aa51-9df2246910d9\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a332",
@@ -115,7 +123,8 @@
         "NumberedTo": 49,
         "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/155/Rookie_Signatures_-_Christian_Miller/15528395/Ungraded/None/EX-NM",
         "CardImageURL": "https://img.comc.com/i/Football/2019/Panini-National-Treasures---Base---Gold/155/Rookie-Signatures---Christian-Miller.jpg?id=b36f5c99-4258-450e-96c5-88a37ead20d5\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
     },
     {
         "CardID":"a066fa34-d9b0-4dd6-9d1b-7f155648a333",
@@ -128,6 +137,217 @@
         "NumberedTo": 49,
         "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
         "CardImageURL": "https://img.comc.com/i/Football/2019/Panini-National-Treasures---Base---Gold/160/Rookie-Signatures---Jordan-Scarlett.jpg?id=ea115867-ff22-462d-bc50-5327f4b5ea14\u0026size=biggerthumb",
-        "AssetClass" : "Trading Card"
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"b066fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+        "Player": "Charizard",
+        "Grade": 7,
+        "Grader": "PSA",
+        "CardName": "1999 Pokemon Base Set - [Base] - Unlimited #4 Holo",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://img.comc.com/i/Pokemon/1999/Pokemon-Base-Set---Base---Unlimited/4/Charizard-(Holo).jpg?id=6affbb6d-24ce-418a-8412-3881d7f28268&size=biggerthumb",
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"c066fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+        "Player": "Pikachu",
+        "Grade": 9,
+        "Grader": "PSA",
+        "CardName": "1999 Pokemon Base Set - [Base] - Unlimited #58.1 (Yellow Cheeks)",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://img.comc.com/i/Pokemon/1999/Pokemon-Base-Set---Base---Unlimited/581/Pikachu-(Yellow-Cheeks).jpg?id=fae10a2b-8341-4d6a-8fc5-d76e3a5161b1&size=biggerthumb",
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"d066fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+        "Player": "Blastoise",
+        "Grade": 8,
+        "Grader": "CGC",
+        "CardName": "1999 Pokemon Base Set - [Base] - Unlimited #2 (Holo)",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://img.comc.com/i/Pokemon/1999/Pokemon-Base-Set---Base---Unlimited/2/Blastoise-(Holo).jpg?id=45cb49c9-7650-4569-b96b-e32a47e561a5&size=biggerthumb",
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"e066fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+        "Player": "Venusaur",
+        "Grade": 8,
+        "Grader": "PSA",
+        "CardName": "1999 Pokemon Base Set - [Base] - German Unlimited #15 - (Holo)",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://img.comc.com/i/Pokemon/1999/Pokemon-Base-Set---Base---German-Unlimited/15/Venusaur-(Holo).jpg?id=6a7eaa8e-6ab2-4882-a8a0-13537af42218&size=biggerthumb",
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"f066fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"7afa6a69-9f0e-4398-af3b-af4cccdaa3jo",
+        "Player": "Mew",
+        "Grade": 8.5,
+        "Grader": "BGS",
+        "CardName": "1999 Pokemon Fossil (The Mystery of the Fossils) - [Base] - Japanese #151 (Holo)",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://img.comc.com/i/Pokemon/1999/Pokemon-Fossil-(The-Mystery-of-the-Fossils)---Base---Japanese/151/Mew-(Holo).jpg?id=8f5912cf-affa-4d83-90f0-7f64f8c59e67&size=biggerthumb",
+        "AssetClass" : "Trading Card",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"d966fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+        "Player": "Joel Embiid",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "Throwdowns (Series 2) Rare /1800",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://assets.nbatopshot.com/editions/2_throwdowns_rare/2e550c03-ae32-48f7-8ffb-09ffe2fc85f4/play_2e550c03-ae32-48f7-8ffb-09ffe2fc85f4_2_throwdowns_rare_capture_Animated_1080_1920_Black.mp4?width=582",
+        "AssetClass" : "NFT",
+        "IsVideo" : true
+    },
+    {
+        "CardID":"c566fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+        "Player": "LeBron James",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "2021 NBA Playoffs (Series 2) Common /12000",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://assets.nbatopshot.com/editions/2_2021_nba_playoffs_common/9100b304-fad7-425c-91b9-88f8f6e50e7b/play_9100b304-fad7-425c-91b9-88f8f6e50e7b_2_2021_nba_playoffs_common_capture_Animated_1080_1920_Black.mp4?width=582",
+        "AssetClass" : "NFT",
+        "IsVideo" : true
+    },
+    {
+        "CardID":"c366fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+        "Player": "Zion Williamson",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "Throwdowns (Series 2) Rare /1800",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://assets.nbatopshot.com/editions/2_throwdowns_rare/7f725955-5bb9-4364-abe4-c9314f000cdb/play_7f725955-5bb9-4364-abe4-c9314f000cdb_2_throwdowns_rare_capture_Animated_1080_1920_Black.mp4?width=582",
+        "AssetClass" : "NFT",
+        "IsVideo" : true
+    },
+    {
+        "CardID":"b266fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+        "Player": "Aleksej Pokusevski",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "Base Set (Series 2) Common /4000",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://assets.nbatopshot.com/editions/2_base_set_common/cc0f9547-2b66-498e-9716-d867b8d3393a/play_cc0f9547-2b66-498e-9716-d867b8d3393a_2_base_set_common_capture_Animated_1080_1920_Black.mp4?width=582",
+        "AssetClass" : "NFT",
+        "IsVideo" : true
+    },
+    {
+        "CardID":"a166fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"1bfa6a69-9f0e-4398-af3b-af4bbbdaa6bb",
+        "Player": "Luka Doncic",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "2021 NBA Playoffs (Series 2) Common /12000",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://assets.nbatopshot.com/editions/2_2021_nba_playoffs_common/fa190670-cf55-4c1e-af43-f60c80dbd649/play_fa190670-cf55-4c1e-af43-f60c80dbd649_2_2021_nba_playoffs_common_capture_Animated_1080_1920_Black.mp4?width=582",
+        "AssetClass" : "NFT",
+        "IsVideo" : true
+    },
+    {
+        "CardID":"e956fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+        "Player": "CryptoPunk 2382",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://i.imgur.com/yVjENGm.jpg",
+        "AssetClass" : "NFT",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"f236fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+        "Player": "CryptoPunk 2555",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://i.imgur.com/jW1AADD.jpg",
+        "AssetClass" : "NFT",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"b010fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+        "Player": "CryptoPunk 8153",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://i.imgur.com/P3RcMTi.jpg",
+        "AssetClass" : "NFT",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"a996fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+        "Player": "CryptoPunk 4637",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://i.imgur.com/EKtWFf7.jpg",
+        "AssetClass" : "NFT",
+        "IsVideo" : false
+    },
+    {
+        "CardID":"b126fa34-d9b0-4dd6-9d1b-7f155648a333",
+        "BreakID":"3sfa6a69-9f0e-4398-af3b-af4bbbdaa3lo",
+        "Player": "CryptoPunk 9059",
+        "Grade": 0,
+        "Grader": "",
+        "CardName": "",
+        "Price": 17.49,
+        "NumberedTo": 49,
+        "CardURL": "https://www.comc.com/Cards/Football/2019/Panini_National_Treasures_-_Base_-_Gold/160/Rookie_Signatures_-_Jordan_Scarlett/15528400/Ungraded/None/EX-NM",
+        "CardImageURL": "https://i.imgur.com/ylY0d4W.jpg",
+        "AssetClass" : "NFT",
+        "IsVideo" : false
     }
 ]

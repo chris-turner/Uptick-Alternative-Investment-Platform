@@ -17,14 +17,29 @@ else
 	{
 		@if (countdownFinished)
 		{
-			<div class="row">
+			<div class="row" style="height:500px">
 				<div class="col-xl-2"></div>
 				<div class="col-xl-8">
 					<Carousel @bind-SelectedSlide="@selectedSlide" Style="height:250px;">
 						@foreach (var result in breakResults)
 						{
 							<CarouselSlide Name="@result.slotNum.ToString()" Style="height:400px;  ">
-								<Image Source="@result.card.CardImageURL" Text="Card" Display="Display.Block" Class="mx-auto" Style="width:40% object-fit: cover;" />
+								@if (result.card.isVideo)
+								{
+									<div class="row">
+										<div class="col-xl-2"></div>
+										<div class="col-xl-8 centerContent" style="text-align:center">
+											<video style="" class="videoSize" src="@result.card.CardImageURL" loop="" autoplay="" playsinline="" preload="auto" controls="" muted=""></video>
+										</div>
+										<div class="col-xl-2">
+										</div>
+									</div>
+								}
+								else
+								{
+									<Image Source="@result.card.CardImageURL" Text="Card" Display="Display.Block" Class="mx-auto" Style="width:40% object-fit: cover;" />
+
+								}
 								@if (result.user.username == AppState.loggedInUser.username)
 								{
 									<div class="row">

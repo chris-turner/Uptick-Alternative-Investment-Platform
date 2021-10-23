@@ -26,8 +26,20 @@
 				{
 					var assetID = asset.cardId;
 					<div class="col-md-4 col-sm-6 col-xs-6">
-						<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
-						@asset.Player @asset.CardName @asset.Grader @asset.Grade
+						@if (asset.isVideo)
+						{
+							<video style="display: block; width:30% " class="grid-img" src="@asset.CardImageURL" loop="" autoplay="" playsinline="" preload="auto" controls="" muted=""></video>
+						}
+						else
+						{
+							<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+						}
+						@asset.Player @asset.CardName
+
+						@if (asset.Grader != "" && asset.Grade != 0)
+						{
+							@asset.Grader @asset.Grade
+						}
 						<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToPortfolio(assetID))">Send to Portfolio</button></p>
 						<p><button type="button" class="btn btn-primary">Withdraw Asset</button></p>
 					</div>

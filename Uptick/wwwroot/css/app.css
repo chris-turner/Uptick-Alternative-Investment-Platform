@@ -2,15 +2,137 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,900);
 
 html, body {
-    font-family: "-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+    font-family: "Segoe UI","Roboto","Helvetica Neue","Arial","Noto Sans","Liberation Sans","sans-serif","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
+
+.videoSize {
+    max-height:350px;
+    object-fit: contain;
+    
+}
+
+svg {
+    width: 35px;
+    display: block;
+    margin: 40px auto 0;
+}
+
+.path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+}
+
+    .path.circle {
+        -webkit-animation: dash 0.9s ease-in-out;
+        animation: dash 0.9s ease-in-out;
+    }
+
+    .path.line {
+        stroke-dashoffset: 1000;
+        -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+        animation: dash 0.9s 0.35s ease-in-out forwards;
+    }
+
+    .path.check {
+        stroke-dashoffset: -100;
+        -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+        animation: dash-check 0.9s 0.35s ease-in-out forwards;
+    }
+
+.successMessage {
+    text-align: center;
+    margin: 20px 0 60px;
+    font-size: 1.1em;
+    color: #73AF55;
+}
+
+
+@-webkit-keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@-webkit-keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+
+@keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+
 
 .marketing-subtitle {
     padding-left: 15px
 }
 
+.marketing{
+    padding-top:50px
+}
+
+/*.emailInput {
+    margin: auto;
+    display: block;
+}*/
+
+.invalidInfo {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.invalidInput {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + .75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .1875rem) center;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}
+
+/*.waitListForm {
+    background-color: #58c9d5; 
+    text-align: center
+}*/
+
 .pad-bottom{
     padding-bottom:20px
+}
+
+
+.pad-top {
+    padding-top: 20px
+}
+
+.pointer-hover:hover {
+    cursor: pointer;
 }
 
 .login-body {

@@ -1,12 +1,18 @@
-﻿@page "/Sales"
+﻿@page "/Search"
 @using System.Web
 @inject IJSRuntime JSRuntime;
-
 <div class="row pad-bottom">
 	<div class="col-1"></div>
 	<div class="col-10">
-		<h2>eBay Sold Search</h2>
-		Bookmark this page for a quick way to search eBay sold listings.
+		<h3>Search</h3>
+		<p>Improved search of eBay, COMC, and StarStock listings.</p>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<h3>eBay Sold Search</h3>
 	</div>
 	<div class="col-1"></div>
 </div>
@@ -14,7 +20,6 @@
 	<div class="col-1"></div>
 	<div class="col-10">
 		<input type="text" @bind="@SearchQuery" @oninput="@((e) => { SearchQuery=(string)e.Value;})" />
-
 	</div>
 	<div class="col-1"></div>
 </div>
@@ -23,6 +28,13 @@
 	<div class="col-1"></div>
 	<div class="col-10">
 		<button class="btn btn-primary" @onclick=searchEbay>Search</button>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row pad-bottom">
+	<div class="col-1"></div>
+	<div class="col-10">
+		More to come...
 	</div>
 	<div class="col-1"></div>
 </div>

@@ -5,77 +5,98 @@
 
 @if (AppState.loggedInUser == null)
 {
-	
+
 }
 else
 {
 	<h3>@AppState.loggedInUser.username's Portfolio</h3>
-	
 	if (AppState.portfolio == null || AppState.portfolio.Count == 0)
 	{
+
 		<p>Your portfolio is empty. Join breaks to acquire assets.</p>
 	}
 	else
 	{
-		<div class="row">
-		<div class="col-12">
-			<PieChart @ref="pieChart" TItem="int">
-			</PieChart>
+		<div class="row" style="height:400px; max-height:400px">
+			<div class="col-9">
+				<ChartJs.Blazor.Chart Config="_config"></ChartJs.Blazor.Chart>
+			</div>
 		</div>
-	</div>
-		foreach (var asset in AppState.portfolio)
+		<div class="row pad-top">
+		@foreach (var asset in AppState.portfolio)
 		{
 			var assetID = asset.cardId;
 			<div class="col-md-4 col-sm-6 col-xs-6">
-				<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+
+				@if (asset.isVideo)
+				{
+					<video style="display: block; width:30% " class="grid-img" src="@asset.CardImageURL" loop="" autoplay="" playsinline="" preload="auto" controls="" muted=""></video>
+				}
+				else
+				{
+					<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+				}
+
 				<p>
-					@asset.Player @asset.CardName @asset.Grader @asset.Grade
+					@asset.Player @asset.CardName
+					@if (asset.Grader != "" && asset.Grade != 0)
+					{
+						@asset.Grader @asset.Grade
+					}
 				</p>
 				<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToWithdrawl(assetID))">Withdraw Asset</button></p>
 			</div>
 		}
-
-
+		</div>
 	}
 }
 
 @code {
 	@using System.Globalization
-
-	List<string> chartLabels;
+	@using ChartJs.Blazor.PieChart
+	@using System.Drawing
+	@using ChartJs.Blazor.Util
+	@using ChartJs.Blazor.Common
+	@using ChartJs.Blazor.Common.Axes
+	@using ChartJs.Blazor.Common.Axes.Ticks
+	@using ChartJs.Blazor.Common.Enums
+	@using ChartJs.Blazor.Common.Handlers
+	@using ChartJs.Blazor.Common.Time
+	@using ChartJs.Blazor.Interop
 	List<int> assetClasses;
+	private PieConfig _config;
 
 
-	PieChart<int> pieChart;
-
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	protected override void OnInitialized()
 	{
 		if (AppState.loggedInUser == null)
 		{
 			NavManager.NavigateTo($"/account");
 		}
-		if (firstRender)
+		else if (AppState.portfolio != null && AppState.portfolio.Count > 0)
 		{
-			await HandleRedraw();
+			buildPieChart();
 		}
 	}
 
-	async Task HandleRedraw()
+	protected void buildPieChart()
 	{
-		chartLabels = new List<string>();
-		assetClasses = new List<int>();
-		if (AppState.portfolio != null && AppState.portfolio.Count > 0)
-		{
-			await pieChart.Clear();
-			var data = GetPieChartDataset();
-			string[] labels = chartLabels.ToArray();
-			await pieChart.AddLabelsDatasetsAndUpdate(labels, data);
-		}
-	}
+		_config = new PieConfig
+			{
+				Options = new PieOptions
+				{
+					Responsive = true,
+					Title = new OptionsTitle
+					{
+						Display = true,
+						Text = "Portfolio by Asset Classes"
+					},
+					MaintainAspectRatio = false,
+					AspectRatio = 3,
+				}
+			};
 
-	PieChartDataset<int> GetPieChartDataset()
-	{
+
 		Dictionary<string, int> assetClassCount = new Dictionary<string, int>();
 		foreach (var asset in AppState.portfolio)
 		{
@@ -88,28 +109,24 @@ else
 				assetClassCount.Add(asset.AssetClass, 1);
 			}
 		}
-
+		assetClasses = new List<int>();
 		foreach (var kvp in assetClassCount)
 		{
-			chartLabels.Add(kvp.Key);
-			assetClasses.Add(kvp.Value / AppState.portfolio.Count * 100);
+			_config.Data.Labels.Add(kvp.Key);
+			assetClasses.Add(kvp.Value);
 		}
-		return new PieChartDataset<int>
+
+		PieDataset<int> dataset = new PieDataset<int>(assetClasses)
 			{
-				Label = "Asset Class Exposure as a Percentage",
-				Data = assetClasses,
-				//BackgroundColor = backgroundColors,
-				//BorderColor = borderColors,
-				//Fill = true,
-				//PointRadius = 2,
-				//BorderDash = new List<int> { },
+				BackgroundColor = new[]
+						{
+			ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
+            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
+				}
 			};
+
+		_config.Data.Datasets.Add(dataset);
 	}
-
-
-	List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
-	List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
-
 
 	public void sendAssetToWithdrawl(string assetID)
 	{
@@ -121,4 +138,6 @@ else
 		AppState.portfolio.Remove(asset);
 		AppState.withdraw.Add(asset);
 	}
+
+
 	}

@@ -1,7 +1,15 @@
 ﻿@page "/"
 @inject AppState AppState;
 @inject NavigationManager NavManager;
-@using Uptick.Models;
+@inject HttpClient Http;
+
+@*@if (showAlert)
+	{
+	<div class="alert alert-info fade show" role="alert">
+	<strong>Demo mode</strong> Thank you for checking out the Uptick demo
+	<a class="pointer-hover float-right" @onclick="closeAlert">X</a>
+	</div>
+	}*@
 
 <div class="jumbotron">
 	<h1 class="display-3">Uptick</h1>
@@ -22,8 +30,60 @@
 	}
 </div>
 
+@if (!AppState.onWaitlist || emailAdded)
+{
+	<div class="waitListForm">
+		<div class="row pad-bottom pad-top">
+			<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+				@if (!isValidEmail)
+				{
+					validationClass = "invalidInput";
+				}
+				else
+				{
+					validationClass = "";
+				}
+				@if (!AppState.onWaitlist)
+				{
+					<label for="inputEmail" class="sr-only">Join the waitlist. Enter your email address to get updates on Uptick.</label>
+					<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
+				}
+
+				@if (!isValidEmail)
+				{
+					<div class="invalidInfo">Please provide a valid email address.</div>
+				}
+
+			</div>
+		</div>
+		@if (!AppState.onWaitlist)
+		{
+			<div class="row pad-bottom">
+				<div class="col-12">
+					<Button Class="btn-primary mx-auto" @onclick="addEmailToWaitlist">Join the Waitlist</Button>
+				</div>
+			</div>
+		}
+		else if (emailAdded)
+		{
+			<div class="row pad-bottom">
+				<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="successMessage">
+						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+							<circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+							<polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+						</svg>
+						<p class="success">Thank you. You've been added to the waitlist.</p>
+					</div>
+				</div>
+			</div>
+
+		}
+
+	</div>
+}
 <div class="row marketing">
-	<div class="col-lg-6">
+	<div class="col-md-6">
 		<h4><span class="oi oi-fire" aria-hidden="true"></span><span class="marketing-subtitle">Break</span></h4>
 		<p>Join a break. Get your spot. Receive an asset. </p>
 
@@ -31,19 +91,50 @@
 		<p>Collect assets to build your portfolio.</p>
 	</div>
 
-	<div class="col-lg-6">
+	<div class="col-md-6">
 		<h4> <span class="oi oi-graph" aria-hidden="true"></span><span class="marketing-subtitle">Track</span></h4>
 		<p>Track performance of trading cards, cryptocurrencies, NFTs, and more.</p>
 
 		<h4><span class="oi oi-location" aria-hidden="true"></span><span class="marketing-subtitle">Send</span></h4>
 		<p>Withdraw virtual assets to a wallet or ship physical assets home.</p>
-
 	</div>
 </div>
 
 @code {
+	bool showAlert = true;
+	bool isValidEmail = true;
+	string validationClass = "";
+	bool emailAdded = false;
+	public string email { get; set; }
+
 	public void sendToLogin()
 	{
 		NavManager.NavigateTo($"/account/login");
+	}
+
+	public void closeAlert()
+	{
+		showAlert = false;
+	}
+
+	public async Task addEmailToWaitlist()
+	{
+		if (Utility.IsValidEmail(email))
+		{
+			isValidEmail = true;
+			var postBody = new { Title = "Blazor POST Request Example" };
+			var url = $"https://localhost:44389/api/uptick?emailAddress={email}";
+
+			var response = await Http.PostAsync(url, null).ConfigureAwait(false);
+
+			if (response.IsSuccessStatusCode)
+			{
+				AppState.onWaitlist = true;
+				emailAdded = true;
+			}
+
+		}
+		else
+			isValidEmail = false;
 	}
 }

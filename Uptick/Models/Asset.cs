@@ -13,5 +13,6 @@
         public string CardURL { get; set; }
         public string CardImageURL { get; set; }
         public string AssetClass { get; set; }
+        public bool isVideo { get; set; }
     }
 }

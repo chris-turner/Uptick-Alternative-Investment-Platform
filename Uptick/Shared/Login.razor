@@ -40,7 +40,7 @@
 		AppState.OnUserChange += StateHasChanged;
 		if (AppState.loggedInUser != null)
 		{
-			NavManager.NavigateTo($"/account");
+			NavManager.NavigateTo($"/");
 		}
 	}
 
@@ -48,7 +48,7 @@
 	{
 		if (AppState.loggedInUser != null)
 		{
-			NavManager.NavigateTo($"/account");
+			NavManager.NavigateTo($"/");
 		}
 	}
 

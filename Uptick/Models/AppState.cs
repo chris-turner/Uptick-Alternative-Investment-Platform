@@ -6,6 +6,10 @@ namespace Uptick.Models
 {
     public class AppState
     {
+        public AppState()
+		{
+            onWaitlist = false;
+		}
         public User loggedInUser { get; set; }
 
         public event Action OnUserChange;
@@ -17,6 +21,8 @@ namespace Uptick.Models
         public List<Asset> withdraw { get; set; }
 
         public string redirectUrl { get; set; }
+
+        public bool onWaitlist { get; set; }   
 
         public void loginUser(string userName)
         {

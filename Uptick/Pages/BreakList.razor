@@ -65,11 +65,6 @@
 	{
 		if (AppState.loggedInUser != null)
 		{
-			Break currentBreak = AppState.breaks.Where(b => b.breakId == breakID).FirstOrDefault();
-			if(currentBreak.currentUsers < currentBreak.maxUsers)
-			{
-				currentBreak.currentUsers++;
-			}
 			NavManager.NavigateTo($"/Break/{breakID}");
 		}
 		else
