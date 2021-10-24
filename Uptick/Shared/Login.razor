@@ -57,6 +57,7 @@
 		user.username = userName; ;
 		localStorage.SetItem("loggedInUser", user);
 		AppState.stateChange();
+		NavManager.NavigateTo($"/");
 	}
 
 	public void Dispose()
