@@ -85,7 +85,7 @@
 		
 		if (highestSales == null)
 		{
-			highestSales = await Http.GetFromJsonAsync<List<Sale>>("sample-data/cardsales.json");
+			highestSales = await Http.GetFromJsonAsync<List<Sale>>("sample-data/cardSales.json");
 		}
 		foreach (var sale in highestSales)
 		{
