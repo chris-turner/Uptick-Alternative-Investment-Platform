@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject AppState AppState;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 @inject NavigationManager NavManager;
 @inject HttpClient Http;
 
@@ -15,9 +15,9 @@
 	<h1 class="display-3">Uptick</h1>
 	<p class="lead">Join breaks. Collect assets. Build your portfolio.</p>
 
-	@if (AppState.loggedInUser != null)
+	@if (loggedInUser != null)
 	{
-		<p>Welcome, @AppState.loggedInUser.username</p>
+		<p>Welcome, @loggedInUser.username</p>
 	}
 	else
 	{
@@ -30,7 +30,7 @@
 	}
 </div>
 
-@if (!AppState.onWaitlist || emailAdded)
+@if (loggedInUser == null || (!loggedInUser.onWaitlist || emailAdded))
 {
 	<div class="waitListForm">
 		<div class="row pad-bottom pad-top">
@@ -43,7 +43,7 @@
 				{
 					validationClass = "";
 				}
-				@if (!AppState.onWaitlist)
+				@if (loggedInUser == null || !loggedInUser.onWaitlist)
 				{
 					<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
 				}
@@ -55,7 +55,7 @@
 
 			</div>
 		</div>
-		@if (!AppState.onWaitlist)
+		@if (loggedInUser == null || !loggedInUser.onWaitlist)
 		{
 			<div class="row pad-bottom">
 				<div class="col-12">
@@ -105,6 +105,12 @@
 	string validationClass = "";
 	bool emailAdded = false;
 	public string email { get; set; }
+	User loggedInUser;
+
+	protected override async Task OnInitializedAsync()
+	{
+		loggedInUser = await localStorage.GetItemAsync<User>("loggedInUser");
+	}
 
 	public void sendToLogin()
 	{
@@ -121,15 +127,18 @@
 		if (Utility.IsValidEmail(email))
 		{
 			isValidEmail = true;
-			var postBody = new { Title = "Blazor POST Request Example" };
 			var url = $"https://localhost:44389/api/uptick?emailAddress={email}";
 
 			var response = await Http.PostAsync(url, null).ConfigureAwait(false);
 
 			if (response.IsSuccessStatusCode)
 			{
-				AppState.onWaitlist = true;
+				if (loggedInUser != null)
+				{
+					loggedInUser.onWaitlist = true;
+				}
 				emailAdded = true;
+				await localStorage.SetItemAsync("loggedInUser", loggedInUser);
 			}
 
 		}

@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -25,6 +26,7 @@ namespace Uptick
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddSingleton<AppState>();
             await builder.Build().RunAsync();
         }

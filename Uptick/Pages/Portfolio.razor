@@ -1,16 +1,16 @@
 ﻿@page "/Portfolio"
-@inject AppState AppState
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavManager
 
 
-@if (AppState.loggedInUser == null)
+@if (loggedInUser == null)
 {
 
 }
 else
 {
-	<h3>@AppState.loggedInUser.username's Portfolio</h3>
-	if (AppState.portfolio == null || AppState.portfolio.Count == 0)
+	<h3>@loggedInUser.username's Portfolio</h3>
+	if (loggedInUser.portfolio == null || loggedInUser.portfolio.Count == 0)
 	{
 
 		<p>Your portfolio is empty. Join breaks to acquire assets.</p>
@@ -23,30 +23,34 @@ else
 			</div>
 		</div>
 		<div class="row pad-top">
-		@foreach (var asset in AppState.portfolio)
-		{
-			var assetID = asset.cardId;
-			<div class="col-md-4 col-sm-6 col-xs-6">
+			@foreach (var asset in loggedInUser.portfolio)
+			{
+				var assetID = asset.cardId;
+				<div class="col-md-4 col-sm-6 col-xs-6">
 
-				@if (asset.isVideo)
-				{
-					<video style="display: block; width:30% " class="grid-img" src="@asset.CardImageURL" loop="" autoplay="" playsinline="" preload="auto" controls="" muted=""></video>
-				}
-				else
-				{
-					<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
-				}
-
-				<p>
-					@asset.Player @asset.CardName
-					@if (asset.Grader != "" && asset.Grade != 0)
+					@if (asset.isVideo)
 					{
-						@asset.Grader @asset.Grade
+						<video style="display: block; width:30% " class="grid-img" src="@asset.CardImageURL" loop="" autoplay="" playsinline="" preload="auto" controls="" muted=""></video>
 					}
-				</p>
-				<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToWithdrawl(assetID))">Withdraw Asset</button></p>
-			</div>
-		}
+					else
+					{
+						<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
+					}
+
+					<p>
+						@if (!String.IsNullOrEmpty(asset.Grader) && asset.Grade != 0)
+						{
+							cardName = $"{asset.Player} {asset.CardName} {asset.Grader} {asset.Grade}";
+						}
+						else
+						{
+							cardName = $"{asset.Player} {asset.CardName}";
+						}
+						@cardName
+					</p>
+					<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToWithdrawl(assetID))">Withdraw Asset</button></p>
+				</div>
+			}
 		</div>
 	}
 }
@@ -65,15 +69,17 @@ else
 	@using ChartJs.Blazor.Interop
 	List<int> assetClasses;
 	private PieConfig _config;
+	User loggedInUser;
+	string cardName;
 
-
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		if (AppState.loggedInUser == null)
+		loggedInUser = await localStorage.GetItemAsync<User>("loggedInUser");
+		if (loggedInUser == null)
 		{
 			NavManager.NavigateTo($"/account");
 		}
-		else if (AppState.portfolio != null && AppState.portfolio.Count > 0)
+		else if (loggedInUser.portfolio != null && loggedInUser.portfolio.Count > 0)
 		{
 			buildPieChart();
 		}
@@ -98,7 +104,7 @@ else
 
 
 		Dictionary<string, int> assetClassCount = new Dictionary<string, int>();
-		foreach (var asset in AppState.portfolio)
+		foreach (var asset in loggedInUser.portfolio)
 		{
 			if (assetClassCount.ContainsKey(asset.AssetClass))
 			{
@@ -119,7 +125,7 @@ else
 		PieDataset<int> dataset = new PieDataset<int>(assetClasses)
 			{
 				BackgroundColor = new[]
-						{
+								{
 			ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
             ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
 				}
@@ -128,15 +134,16 @@ else
 		_config.Data.Datasets.Add(dataset);
 	}
 
-	public void sendAssetToWithdrawl(string assetID)
+	public async Task sendAssetToWithdrawl(string assetID)
 	{
-		if (AppState.withdraw == null)
+		if (loggedInUser.withdraw == null)
 		{
-			AppState.withdraw = new List<Asset>();
+			loggedInUser.withdraw = new List<Asset>();
 		}
-		var asset = AppState.portfolio.Where(a => a.cardId == assetID).FirstOrDefault();
-		AppState.portfolio.Remove(asset);
-		AppState.withdraw.Add(asset);
+		var asset = loggedInUser.portfolio.Where(a => a.cardId == assetID).FirstOrDefault();
+		loggedInUser.portfolio.Remove(asset);
+		loggedInUser.withdraw.Add(asset);
+		await localStorage.SetItemAsync("loggedInUser", loggedInUser);
 	}
 
 

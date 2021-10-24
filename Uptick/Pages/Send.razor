@@ -1,5 +1,5 @@
 ﻿@page "/send"
-@inject AppState AppState
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavManager
 
 
@@ -14,15 +14,15 @@
 <div class="row pad-bottom">
 	<div class="col-1"></div>
 	<div class="col-10">
-		@if (AppState.loggedInUser != null)
+		@if (loggedInUser != null)
 		{
-			if (AppState.withdraw == null)
+			if (loggedInUser.withdraw == null)
 			{
 				<p>No assets marked to withdraw.</p>
 			}
 			else
 			{
-				foreach (var asset in AppState.withdraw)
+				foreach (var asset in loggedInUser.withdraw)
 				{
 					var assetID = asset.cardId;
 					<div class="col-md-4 col-sm-6 col-xs-6">
@@ -34,12 +34,15 @@
 						{
 							<p> <img class="grid-img" src="@asset.CardImageURL" /></p>
 						}
-						@asset.Player @asset.CardName
-
-						@if (asset.Grader != "" && asset.Grade != 0)
+						@if (!String.IsNullOrEmpty(asset.Grader) && asset.Grade != 0)
 						{
-							@asset.Grader @asset.Grade
+							cardName = $"{asset.Player} {asset.CardName} {asset.Grader} {asset.Grade}";
 						}
+						else
+						{
+							cardName = $"{asset.Player} {asset.CardName}";
+						}
+						@cardName
 						<p><button type="button" class="btn btn-primary" @onclick="(() => sendAssetToPortfolio(assetID))">Send to Portfolio</button></p>
 						<p><button type="button" class="btn btn-primary">Withdraw Asset</button></p>
 					</div>
@@ -50,21 +53,27 @@
 	<div class="col-1"></div>
 </div>
 @code {
+
+	User loggedInUser;
+	string cardName;
+
 	protected override async Task OnInitializedAsync()
 	{
-		if (AppState.loggedInUser == null)
+		loggedInUser = await localStorage.GetItemAsync<User>("loggedInUser");
+		if (loggedInUser == null)
 		{
 			NavManager.NavigateTo($"/account");
 		}
 	}
-	public void sendAssetToPortfolio(string assetID)
+	public async Task sendAssetToPortfolio(string assetID)
 	{
-		if (AppState.portfolio == null)
+		if (loggedInUser.portfolio == null)
 		{
-			AppState.portfolio = new List<Asset>();
+			loggedInUser.portfolio = new List<Asset>();
 		}
-		var asset = AppState.withdraw.Where(a => a.cardId == assetID).FirstOrDefault();
-		AppState.withdraw.Remove(asset);
-		AppState.portfolio.Add(asset);
+		var asset = loggedInUser.withdraw.Where(a => a.cardId == assetID).FirstOrDefault();
+		loggedInUser.withdraw.Remove(asset);
+		loggedInUser.portfolio.Add(asset);
+		await localStorage.SetItemAsync("loggedInUser", loggedInUser);
 	}
 }

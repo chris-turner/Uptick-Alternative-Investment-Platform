@@ -6,9 +6,8 @@ html, body {
 }
 
 .videoSize {
-    max-height:350px;
+    max-height: 350px;
     object-fit: contain;
-    
 }
 
 svg {
@@ -92,8 +91,8 @@ svg {
     padding-left: 15px
 }
 
-.marketing{
-    padding-top:50px
+.marketing {
+    padding-top: 50px
 }
 
 /*.emailInput {
@@ -122,8 +121,8 @@ svg {
     text-align: center
 }*/
 
-.pad-bottom{
-    padding-bottom:20px
+.pad-bottom {
+    padding-bottom: 20px
 }
 
 
@@ -153,33 +152,40 @@ svg {
     margin: auto;
 }
 
-    .form-signin .checkbox {
-        font-weight: 400;
+.resetButton {
+    padding-top: 120px;
+    padding-right: 150px;
+    float: right;
+}
+
+
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+    .form-signin .form-control:focus {
+        z-index: 2;
     }
 
-    .form-signin .form-control {
-        position: relative;
-        box-sizing: border-box;
-        height: auto;
-        padding: 10px;
-        font-size: 16px;
-    }
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
 
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
-
-    .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
 
 
 .number {

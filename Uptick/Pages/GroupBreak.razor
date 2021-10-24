@@ -1,7 +1,7 @@
 @page "/Break/{BreakID}"
 @inject HttpClient Http
 @inject NavigationManager NavManager
-@inject AppState AppState
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 
 @if (cardsInBreak == null)
@@ -17,7 +17,7 @@ else
 	</div>
 	<div class="row pad-bottom">
 		<div class="col-12">
-			<p>You will receive one of the cards below.</p>
+			<p>You will receive one of the items below.</p>
 		</div>
 	</div>
 	<div class="row">
@@ -35,7 +35,7 @@ else
 
 				<p>
 
-					@if (!String.IsNullOrEmpty(@card.Grader))
+					@if (!String.IsNullOrEmpty(@card.Grader) && card.Grade != 0)
 					{
 						cardName = $"{card.Player} {card.CardName} {card.Grader} {card.Grade}";
 					}
@@ -60,11 +60,12 @@ else
 	[Parameter]
 	public string BreakID { get; set; }
 	private List<Asset> cardsInBreak;
-
+	User loggedInUser;
 	string cardName;
 
 	protected override async Task OnInitializedAsync()
 	{
+		loggedInUser = await localStorage.GetItemAsync<User>("loggedInUser");
 		var allCards = await Http.GetFromJsonAsync<List<Asset>>("sample-data/cards.json");
 		cardsInBreak = allCards.Where(c => c.breakID == BreakID).ToList();
 	}
@@ -74,13 +75,14 @@ else
 		NavManager.NavigateTo($"/breaks");
 	}
 
-	private void StartBreak()
+	private async Task StartBreak()
 	{
-		Break currentBreak = AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault();
+		Break currentBreak = loggedInUser.breaks.Where(b => b.breakId == BreakID).FirstOrDefault();
 		if (currentBreak.currentUsers < currentBreak.maxUsers)
 		{
 			currentBreak.currentUsers++;
 		}
+		await localStorage.SetItemAsync("loggedInUser", loggedInUser);
 		NavManager.NavigateTo($"/BreakStart/{BreakID}");
 	}
 

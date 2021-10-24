@@ -1,59 +1,66 @@
 ﻿@page "/account/login"
-@inject AppState AppState
 @inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
+@inject AppState AppState
 
-@if (AppState.loggedInUser == null)
+@if (loggedInUser == null)
 {
 	<div class="row">
 		<div class="col-1"></div>
 		<div class="col-10">
 			<div class="login-body text-center rounded">
-			<form class="form-signin">
-				<img class="mb-4" src="https://i.imgur.com/O59ZUyo.png" alt="" width="72" height="72">
-				<h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
-				<label for="inputEmail" class="sr-only">Username</label>
-				<input type="email" id="inputEmail" class="form-control" placeholder="Username" @bind="@userName" @oninput="@((e) => { userName=(string)e.Value;})" required="" autofocus="">
-				<label for="inputPassword" class="sr-only">Password</label>
-				<input type="password" id="inputPassword" class="form-control" placeholder="Enter a username to enter the demo" required="" disabled>
-				<div class="checkbox mb-3">
-					<label>
-						<input type="checkbox" value="remember-me"> Remember me
-					</label>
-				</div>
-				<button class="btn btn-lg btn-primary btn-block" type="submit" @onclick='() => AppState.loginUser(userName)'>Sign in</button>
-				<p class="mt-5 mb-3 text-muted">2021</p>
-			</form>
-	</div>
+				<form class="form-signin">
+					<img class="mb-4" src="https://i.imgur.com/O59ZUyo.png" alt="" width="72" height="72">
+					<h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+					<label for="inputEmail">Username</label>
+					<input id="inputEmail" class="form-control" placeholder="Username" @bind="@userName" @oninput="@((e) => { userName=(string)e.Value;})" required="" autofocus="">
+					<label for="inputPassword" class="sr-only">Password</label>
+					<input type="password" id="inputPassword" class="form-control" placeholder="Enter a username to enter the demo" required="" disabled>
+					<div class="checkbox mb-3">
+						<label>
+							<input type="checkbox" value="remember-me"> Remember me
+						</label>
+					</div>
+					<button class="btn btn-lg btn-primary btn-block" type="submit" @onclick='() => loginUser(userName)'>Sign in</button>
+					<p class="mt-5 mb-3 text-muted">2021</p>
+				</form>
+			</div>
 		</div>
 		<div class="col-1"></div>
 	</div>
-	
+
 
 
 }
 
 @code {
 	public string userName { get; set; }
+	User loggedInUser;
 
 	protected override void OnInitialized()
 	{
-		AppState.OnUserChange += StateHasChanged;
-		if (AppState.loggedInUser != null)
+		AppState.OnChange += StateHasChanged;
+		loggedInUser = localStorage.GetItem<User>("loggedInUser");
+		if (loggedInUser != null)
 		{
 			NavManager.NavigateTo($"/");
 		}
 	}
 
-	protected override void OnAfterRender(bool firstRender)
+	protected void loginUser(string username)
 	{
-		if (AppState.loggedInUser != null)
+		if (String.IsNullOrEmpty(userName.Trim()))
 		{
-			NavManager.NavigateTo($"/");
+			return;
 		}
+		User user = new User();
+		user.username = userName; ;
+		localStorage.SetItem("loggedInUser", user);
+		AppState.stateChange();
 	}
 
 	public void Dispose()
 	{
-		AppState.OnUserChange -= StateHasChanged;
+		AppState.OnChange -= StateHasChanged;
 	}
 }

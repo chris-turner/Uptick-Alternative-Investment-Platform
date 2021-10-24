@@ -1,7 +1,7 @@
 ﻿@page "/BreakResults/{BreakID}"
 @inject HttpClient Http
-@inject AppState AppState
 @inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 
 @if (breakResults == null)
@@ -45,14 +45,15 @@ else
 	[Parameter]
 	public string BreakID { get; set; }
 	private List<BreakSlot> breakResults;
-
+	User loggedInUser;
 	string cardName;
 
 	protected override async Task OnInitializedAsync()
 	{
-		if (AppState.loggedInUser != null)
+		loggedInUser = await localStorage.GetItemAsync<User>("loggedInUser");
+		if (loggedInUser != null)
 		{
-			breakResults = AppState.breaks.Where(b => b.breakId == BreakID).FirstOrDefault().breakResults;
+			breakResults = loggedInUser.breaks.Where(b => b.breakId == BreakID).FirstOrDefault().breakResults;
 		}
 	}
 }

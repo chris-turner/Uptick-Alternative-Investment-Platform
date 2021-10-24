@@ -1,16 +1,17 @@
 ﻿@page "/account"
-@inject AppState AppState
 @inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
+@inject AppState AppState
 
 <h3>Account</h3>
-@if (AppState.loggedInUser != null)
+@if (loggedInUser != null)
 {
 
 	<div class="row pad-bottom">
 		<div class="col-1"></div>
 		<div class="col-10">
-			<p>Welcome @AppState.loggedInUser.username</p>
-			<button type="button" class="btn btn-primary" @onclick='() => AppState.logoutUser()'>
+			<p>Welcome @loggedInUser.username</p>
+			<button type="button" class="btn btn-primary" @onclick='logoutUser'>
 				Log out
 			</button>
 		</div>
@@ -40,26 +41,27 @@
 }
 
 @code {
+	User loggedInUser;
 	protected override void OnInitialized()
 	{
-		AppState.OnUserChange += StateHasChanged;
-		if (AppState.loggedInUser == null)
+		AppState.OnChange += StateHasChanged;
+		loggedInUser = localStorage.GetItem<User>("loggedInUser");
+		if (loggedInUser == null)
 		{
 			NavManager.NavigateTo($"/account/login");
 		}
 	}
 
-	protected override void OnAfterRender(bool firstRender)
+	protected void logoutUser()
 	{
-		if (AppState.loggedInUser == null)
-		{
-			NavManager.NavigateTo($"/account/login");
-		}
+		loggedInUser = null;
+		localStorage.SetItem("loggedInUser", loggedInUser);
+		AppState.stateChange();
+		NavManager.NavigateTo($"/",forceLoad: true);
 	}
 
 	public void Dispose()
 	{
-		AppState.OnUserChange -= StateHasChanged;
+		AppState.OnChange -= StateHasChanged;
 	}
-
 }

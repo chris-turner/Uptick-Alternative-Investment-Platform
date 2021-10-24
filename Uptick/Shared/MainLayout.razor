@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject AppState AppState
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
 
 <div class="page">
 	<div class="sidebar">
@@ -7,14 +9,14 @@
 
 	<div class="main">
 		<div class="top-row px-4">
-			@inject AppState AppState
-			@if (AppState.loggedInUser == null)
+			
+			@if (loggedInUser == null)
 			{
 				<a href="/account/login" class="ml-md-auto">Login</a>
 			}
 			else
 			{
-				<a href="/account" class="ml-md-auto">@AppState.loggedInUser.username</a>
+				<a href="/account" class="ml-md-auto">@loggedInUser.username</a>
 			}
 		</div>
 
@@ -27,14 +29,16 @@
 @code {
 	@using Uptick.Models;
 	public string userName { get; set; }
+	User loggedInUser;
 
 	protected override void OnInitialized()
 	{
-		AppState.OnUserChange += StateHasChanged;
+		AppState.OnChange += StateHasChanged;
+		loggedInUser = localStorage.GetItem<User>("loggedInUser");
 	}
 
 	public void Dispose()
 	{
-		AppState.OnUserChange -= StateHasChanged;
+		AppState.OnChange -= StateHasChanged;
 	}
 }
