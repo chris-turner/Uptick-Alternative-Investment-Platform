@@ -48,7 +48,7 @@
 				{
 					<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
 				}
-				
+
 				@if (!isValidEmail)
 				{
 					<div class="invalidInfo">Please provide a valid email address.</div>
@@ -82,6 +82,13 @@
 
 	</div>
 }
+
+<div class="row">
+	<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+		<a class="link-primary" href="https://www.youtube.com/watch?v=yc-OaDCVDt4" target="_blank">Watch the demo on YouTube</a>
+		</div>
+</div>
+
 <div class="row marketing">
 	<div class="col-md-6">
 		<h4><span class="oi oi-fire" aria-hidden="true"></span><span class="marketing-subtitle">Break</span></h4>
