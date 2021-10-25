@@ -21,6 +21,7 @@
 	}
 	else
 	{
+		<p>Enter a username at the login screen and join a break to enter the demo.</p>
 		<div class="btn-group mr-2">
 			<Button Class="btn-primary mx-auto" @onclick="sendToLogin">Sign Up</Button>
 		</div>
@@ -127,7 +128,7 @@
 		if (Utility.IsValidEmail(email))
 		{
 			isValidEmail = true;
-			var url = $"https://localhost:44389/api/uptick?emailAddress={email}";
+			var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
 
 			var response = await Http.PostAsync(url, null).ConfigureAwait(false);
 
