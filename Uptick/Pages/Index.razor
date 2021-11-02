@@ -31,57 +31,54 @@
 	}
 </div>
 
-@if (loggedInUser == null || (!loggedInUser.onWaitlist || emailAdded))
-{
-	<div class="waitListForm">
-		<div class="row pad-bottom pad-top">
-			<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
-				@if (!isValidEmail)
-				{
-					validationClass = "invalidInput";
-				}
-				else
-				{
-					validationClass = "";
-				}
-				@if (loggedInUser == null || !loggedInUser.onWaitlist)
-				{
-					<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
-				}
+<div class="waitListForm">
+	<div class="row pad-bottom pad-top">
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+			@if (!isValidEmail)
+			{
+				validationClass = "invalidInput";
+			}
+			else
+			{
+				validationClass = "";
+			}
+			@if (!emailAdded)
+			{
+				<input type="email" class="form-control emailInput @validationClass" id="inputEmail" placeholder="Email address" @bind="@email" @oninput="@((e) => { email=(string)e.Value;})" required="" autofocus="">
+			}
 
-				@if (!isValidEmail)
-				{
-					<div class="invalidInfo">Please provide a valid email address.</div>
-				}
+			@if (!isValidEmail)
+			{
+				<div class="invalidInfo">Please provide a valid email address.</div>
+			}
 
+		</div>
+	</div>
+	@if (!emailAdded)
+	{
+		<div class="row pad-bottom">
+			<div class="col-12">
+				<Button Class="btn-primary mx-auto" @onclick="addEmailToWaitlist">Join the Waitlist</Button>
 			</div>
 		</div>
-		@if (loggedInUser == null || !loggedInUser.onWaitlist)
-		{
-			<div class="row pad-bottom">
-				<div class="col-12">
-					<Button Class="btn-primary mx-auto" @onclick="addEmailToWaitlist">Join the Waitlist</Button>
+	}
+	else if (emailAdded)
+	{
+		<div class="row pad-bottom">
+			<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+				<div class="successMessage">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+						<circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+						<polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+					</svg>
+					<p class="success">Thank you. You've been added to the waitlist.</p>
 				</div>
 			</div>
-		}
-		else if (emailAdded)
-		{
-			<div class="row pad-bottom">
-				<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
-					<div class="successMessage">
-						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-							<circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-							<polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
-						</svg>
-						<p class="success">Thank you. You've been added to the waitlist.</p>
-					</div>
-				</div>
-			</div>
+		</div>
 
-		}
+	}
 
-	</div>
-}
+</div>
 
 <div class="row">
 	<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -113,7 +110,7 @@
 	string validationClass = "";
 	bool emailAdded = false;
 	public string email { get; set; }
-	User loggedInUser;
+	User loggedInUser = null;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -130,20 +127,14 @@
 		showAlert = false;
 	}
 
-	public void addEmailToWaitlist()
+	public async Task addEmailToWaitlist()
 	{
 		if (Utility.IsValidEmail(email))
 		{
 			isValidEmail = true;
 			emailAdded = true;
-			if (loggedInUser != null)
-			{
-				loggedInUser.onWaitlist = true;
-			}
-			localStorage.SetItemAsync("loggedInUser", loggedInUser);
 			var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
-			var response = Http.PostAsync(url, null).ConfigureAwait(true);
-		
+			var response = await Http.PostAsync(url, null).ConfigureAwait(true);
 		}
 		else
 			isValidEmail = false;
