@@ -137,7 +137,7 @@
 			isValidEmail = true;
 			var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
 
-			var response = await Http.PostAsync(url, null).ConfigureAwait(false);
+			var response = await Http.PostAsync(url, null).ConfigureAwait(true);
 
 			if (loggedInUser != null)
 			{
