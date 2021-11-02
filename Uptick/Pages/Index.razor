@@ -130,7 +130,7 @@
 		showAlert = false;
 	}
 
-	public async Task addEmailToWaitlist()
+	public void addEmailToWaitlist()
 	{
 		if (Utility.IsValidEmail(email))
 		{
@@ -140,11 +140,10 @@
 			{
 				loggedInUser.onWaitlist = true;
 			}
-			
-			await localStorage.SetItemAsync("loggedInUser", loggedInUser);
+			localStorage.SetItemAsync("loggedInUser", loggedInUser);
 			var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
-			var response = await Http.PostAsync(url, null).ConfigureAwait(true);
-
+			var response = Http.PostAsync(url, null).ConfigureAwait(true);
+		
 		}
 		else
 			isValidEmail = false;
