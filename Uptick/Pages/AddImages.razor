@@ -1,0 +1,212 @@
+﻿@page "/AddImages"
+@using System.IO
+@inject IJSRuntime JsRuntime
+@inject HttpClient Http
+
+<h3>Add</h3>
+
+
+
+@if (!addCardDetails)
+{
+    <table class="full-table" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="table-td">Front Image</th>
+            <th class="table-td">Back Image</th>
+        </tr>
+        @for (int i = 0; i < images.Count; i++)
+        {
+            <tr>
+                <td class="table-td"><img class="cardImg" src="@images[i].frontImage" /></td>
+                <td class="table-td"><img class="cardImg" src="@images[i].backImage" /></td>
+            </tr>
+        }
+    </table>
+    <br />
+
+    <table class="full-table" cellpadding="0" cellspacing="0">
+
+        <tr>
+            <th class="table-td">Front Image</th>
+            <th class="table-td">Back Image</th>
+        </tr>
+        <tr>
+            <td class="table-td"><InputFile OnChange="@LoadFileFront" @key=@(_inputFileId) /></td>
+            <td class="table-td"><InputFile OnChange="@LoadFileBack" @key=@(_inputFileId) /></td>
+        </tr>
+    </table>
+
+    <p><button type="button" class="btn btn-primary" @onclick="(() => AddNewCardImages())">Save</button></p>
+
+
+
+    <p><button type="button" class="btn btn-primary" @onclick="(() => AdvanceToCardDetails())">Next: Add Card Information</button></p>
+}
+else
+{
+    <table class="full-table" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="table-td">Front Image</th>
+            <th class="table-td">Back Image</th>
+            <th class="table-td">Title</th>
+            <th class="table-td">Description</th>
+            <th class="table-td">Price</th>
+            <th class="table-td">Graded</th>
+            <th class="table-td">Grader</th>
+            <th class="table-td">Grade</th>
+            <th class="table-td">Sport</th>
+            <th class="table-td">Team</th>
+            <th class="table-td">League</th>
+            <th class="table-td">Shipping</th>
+            <th class="table-td">Search</th>
+        </tr>
+        @for (int i = 0; i < images.Count; i++)
+        {
+
+            <tr>
+                <td class="table-td"><img class="cardImg" src="@images[i].frontImage" /></td>
+                <td class="table-td"><img class="cardImg" src="@images[i].backImage" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td">
+                    <select>
+                        @foreach (var option in new[] { "", "Yes", "No" })
+                        {
+                            <option value=@option>@option</option>
+                        }
+                    </select>
+                </td>
+                <td class="table-td">
+                    <select>
+                        @foreach (var gradingCompany in new[] { "", "PSA", "SGC" })
+                        {
+                            <option value=@gradingCompany>@gradingCompany</option>
+                        }
+                    </select>
+                </td>
+
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td">
+                    <label><input name="BMWTInput" value="BMWT"  type="radio" checked="">BMWT</label>
+                    <label><input name="PWEInput" value="PWE"  type="radio">PWE</label>
+                </td>
+                <td class="table-td">
+                    <span style="padding-left:15px" class="oi oi-magnifying-glass" aria-hidden="true"></span>
+                </td>
+
+
+            </tr>
+        }
+
+    </table>
+
+
+    <p><button type="button" class="btn btn-primary" @onclick="(() => CreateSpreadsheet())">Add</button></p>
+
+
+}
+
+
+
+
+@code {
+
+    public class CardImage
+    {
+        public string frontImage { get; set; }
+        public string backImage { get; set; }
+    }
+
+    public class COMCCard
+    {
+        public int ItemID { get; set; }
+        public string Sport { get; set; }
+        public string SetName { get; set; }
+        //public string CardNo{ get; set; }
+        public string Description { get; set; }
+        public int SerialNo { get; set; }
+        public int QtyManufactured { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public string DateSold { get; set; }
+        public string PurchasedFrom { get; set; }
+        public string IsReturn { get; set; }
+    }
+
+    private string frontFilePath = "";
+    private string backFilePath = "";
+    private string _inputFileId = Guid.NewGuid().ToString();
+    List<CardImage> images = new List<CardImage>();
+    bool addCardDetails = false;
+    public List<COMCCard> COMCPurchases = new List<COMCCard>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //COMCPurchases = await Http.GetFromJsonAsync<List<COMCCard>>("sample-data/COMCPurchases.json");
+    }
+
+    private async void CreateSpreadsheet()
+    {
+    }
+
+
+    private void AdvanceToCardDetails()
+    {
+        addCardDetails = true;
+    }
+
+    private async Task AddNewCardImages()
+    {
+        if (backFilePath == "" || frontFilePath == "")
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Must have 2 images");
+        }
+        else
+        {
+            CardImage ci = new CardImage();
+            ci.frontImage = frontFilePath;
+            ci.backImage = backFilePath;
+            images.Add(ci);
+            frontFilePath = "";
+            backFilePath = "";
+            _inputFileId = Guid.NewGuid().ToString();
+
+        }
+    }
+
+    private async Task LoadFileFront(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            await imgFile.OpenReadStream(2000000).ReadAsync(buffers);
+            string imageType = imgFile.ContentType;
+            frontFilePath = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+        }
+        catch (Exception ex)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+    private async Task LoadFileBack(InputFileChangeEventArgs e)
+    {
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            await imgFile.OpenReadStream(2000000).ReadAsync(buffers);
+            string imageType = imgFile.ContentType;
+            backFilePath = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+        }
+        catch (Exception ex)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+}

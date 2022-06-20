@@ -30,7 +30,11 @@
 		</div>
 	}
 </div>
-
+<div class="row">
+	<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+		<a class="link-primary" href="https://youtu.be/6xq5v-Dgl4E" target="_blank">Watch the demo on YouTube</a>
+	</div>
+</div>
 <div class="waitListForm">
 	<div class="row pad-bottom pad-top">
 		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
@@ -80,11 +84,6 @@
 
 </div>
 
-<div class="row">
-	<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-		<a class="link-primary" href="https://youtu.be/6xq5v-Dgl4E" target="_blank">Watch the demo on YouTube</a>
-	</div>
-</div>
 
 <div class="row marketing">
 	<div class="col-md-6">
@@ -127,14 +126,14 @@
 		showAlert = false;
 	}
 
-	public async Task addEmailToWaitlist()
+	public void addEmailToWaitlist()
 	{
 		if (Utility.IsValidEmail(email))
 		{
 			isValidEmail = true;
 			emailAdded = true;
-			var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
-			var response = await Http.PostAsync(url, null).ConfigureAwait(true);
+			//var url = $"https://uptickapi.azurewebsites.net/api/uptick?emailAddress={email}";
+			//var response = await Http.PostAsync(url, null).ConfigureAwait(true);
 		}
 		else
 			isValidEmail = false;
