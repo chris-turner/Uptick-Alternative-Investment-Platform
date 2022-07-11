@@ -62,13 +62,13 @@ else
         </tr>
         @for (int i = 0; i < images.Count; i++)
         {
-
+            int index = i;
             <tr>
                 <td class="table-td"><img class="cardImg" src="@images[i].frontImage" /></td>
                 <td class="table-td"><img class="cardImg" src="@images[i].backImage" /></td>
-                <td class="table-td"><input class="table-input" type="text" /></td>
-                <td class="table-td"><input class="table-input" type="text" /></td>
-                <td class="table-td"><input class="table-input" type="text" /></td>
+                <td class="table-td"><input class="table-input"  @oninput='(e) => updateCardInfo(index, "title", e)' type="text" /></td>
+                <td class="table-td"><input class="table-input"  @oninput='(e) => updateCardInfo(index, "description", e)' type="text" /></td>
+                <td class="table-td"><input class="table-input"  @oninput='(e) => updateCardInfo(index, "price", e)' type="text" /></td>
                 <td class="table-td">
                     <select>
                         @foreach (var option in new[] { "", "Yes", "No" })
@@ -120,6 +120,17 @@ else
         public string frontImage { get; set; }
         public string backImage { get; set; }
     }
+     public class Card
+    {
+        public string frontImageURL { get; set; }
+        public string backImageURL { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public string price { get; set; }
+        public string shippingOption { get; set; }
+        public string grader { get; set; }
+    }
+
 
     public class COMCCard
     {
@@ -142,14 +153,31 @@ else
     List<CardImage> images = new List<CardImage>();
     bool addCardDetails = false;
     public List<COMCCard> COMCPurchases = new List<COMCCard>();
+    
+    Dictionary<int, Card> cardInfo = new Dictionary<int, Card>();
 
     protected override async Task OnInitializedAsync()
     {
         //COMCPurchases = await Http.GetFromJsonAsync<List<COMCCard>>("sample-data/COMCPurchases.json");
     }
 
+    
     private async void CreateSpreadsheet()
     {
+        if (cardInfo.Count == 0)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "No new cards");
+        }
+
+
+        foreach (var card in cardInfo)
+        {
+            string info =
+       $"Title: {card.Value.title}{Environment.NewLine}Description: {card.Value.description}{Environment.NewLine}"
+       + $"Price: {card.Value.price}{Environment.NewLine}";
+            await JsRuntime.InvokeVoidAsync("alert", info);
+        }
+        // Alert
     }
 
 
@@ -173,8 +201,36 @@ else
             frontFilePath = "";
             backFilePath = "";
             _inputFileId = Guid.NewGuid().ToString();
-
         }
+    }
+
+    private async void updateCardInfo(int i, string field, ChangeEventArgs e)
+    {
+        //await JsRuntime.InvokeVoidAsync("alert", i.ToString() + " " + field + " " + e.Value.ToString());
+        Card currCard;
+        if (!cardInfo.ContainsKey(i))
+        {
+            currCard = new Card();
+            cardInfo.Add(i, currCard);
+        }
+        else
+        {
+            currCard = cardInfo[i];
+        }
+
+        if (field == "title")
+        {
+            currCard.title = e.Value.ToString();
+        }
+        if (field == "description")
+        {
+            currCard.description = e.Value.ToString();
+        }
+        else if (field == "price")
+        {
+            currCard.price = e.Value.ToString();
+        }
+
     }
 
     private async Task LoadFileFront(InputFileChangeEventArgs e)
